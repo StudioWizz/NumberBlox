@@ -34,7 +34,7 @@ function makeRocket(){rocket=new T.Group();rocket.position.set(0,0,-6);buildings
  const antenna=new T.Group();rocket.add(antenna);cyl(antenna,0,9.6,0,.06,1,0xd9e2d7);sphere(antenna,0,10.1,0,.16,0xf4c666);rocketParts.push(antenna);
  rocketFlame=new T.Group();rocket.add(rocketFlame);const f=mesh(new T.ConeGeometry(.85,3,16),mat(0xffbd5a,{emissive:0xff721c,emissiveIntensity:1}),rocketFlame,0,-.3,0);f.rotation.z=Math.PI;rocketParts.push(rocketFlame);rocketFlame.visible=false;
  obstacles.push({x:0,z:-6,r:3});label('LAUNCH PAD',buildings,0,1,1,4);updateRocket();}
-function updateRocket(){if(!rocket)return;const earned=Math.min(6,state.mission%6);rocketParts.forEach((g,i)=>{if(i===5){g.visible=false;return;}g.visible=true;g.traverse(o=>{if(o.isMesh){o.material=o.material.clone();o.material.transparent=true;o.material.opacity=i<=earned?1:.16;}});});}
+function updateRocket(){if(!rocket)return;const earned=awaitingFlight()||state.mission>=18?5:Math.min(5,state.mission%6);rocketParts.forEach((g,i)=>{if(i===5){g.visible=false;return;}g.visible=true;g.traverse(o=>{if(o.isMesh){o.material=o.material.clone();o.material.transparent=true;o.material.opacity=i<=earned?1:.16;}});});}
 function stationBuilding(s,index){const g=new T.Group();g.position.set(s.x,0,s.z);buildings.add(g);cyl(g,0,.12,0,4.7,.24,0xd0cbbb);box(g,0,1.8,0,5,3.3,3.8,s.color);box(g,0,3.6,0,5.5,.35,4.2,0xffebc1);box(g,0,1.6,1.94,1.35,2.7,.1,0x365a68);for(const x of [-1.65,1.65])box(g,x,2.1,1.96,.85,.9,.1,0xbfe2d9);cyl(g,0,.3,3.1,1.1,.3,0xd9b96c);label(s.name,g,0,4.5,0,6);
  if(index===0){for(let i=0;i<5;i++){const c=mesh(new T.OctahedronGeometry(.6),0x6eafc7,g,(i-2)*1.2,4.2,-.6);c.scale.y=1.7;}}
  if(index===1){box(g,0,4.2,0,1.5,.8,1.3,0x617c85);box(g,0,4.7,0,.6,.25,.6,0xdcc07b);}
